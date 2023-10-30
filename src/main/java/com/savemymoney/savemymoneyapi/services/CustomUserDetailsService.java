@@ -1,6 +1,6 @@
 package com.savemymoney.savemymoneyapi.services;
 
-import com.savemymoney.savemymoneyapi.models.Usuario;
+import com.savemymoney.savemymoneyapi.entities.Usuario;
 import com.savemymoney.savemymoneyapi.repositories.UsuarioRepository;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;

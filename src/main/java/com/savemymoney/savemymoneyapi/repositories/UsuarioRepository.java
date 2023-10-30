@@ -1,6 +1,6 @@
 package com.savemymoney.savemymoneyapi.repositories;
 
-import com.savemymoney.savemymoneyapi.models.Usuario;
+import com.savemymoney.savemymoneyapi.entities.Usuario;
 import org.springframework.stereotype.Repository;
 
 import java.util.UUID;

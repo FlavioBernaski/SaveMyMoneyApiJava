@@ -1,12 +1,21 @@
-package com.savemymoney.savemymoneyapi.models;
+package com.savemymoney.savemymoneyapi.entities;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+import java.time.LocalDateTime;
 import java.util.UUID;
 
+@Entity(name = "usuario")
 public class Usuario {
+    @Id
     private UUID id;
     private String nome;
     private String email;
     private String senha;
+    private LocalDateTime dataExclusao;
+    private long versao = System.currentTimeMillis();
+
 
     public UUID getId() {
         return id;
@@ -38,5 +47,21 @@ public class Usuario {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public LocalDateTime getDataExclusao() {
+        return dataExclusao;
+    }
+
+    public void setDataExclusao(LocalDateTime dataExclusao) {
+        this.dataExclusao = dataExclusao;
+    }
+
+    public long getVersao() {
+        return versao;
+    }
+
+    public void setVersao(long versao) {
+        this.versao = versao;
     }
 }

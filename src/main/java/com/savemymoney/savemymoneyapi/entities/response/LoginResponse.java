@@ -1,4 +1,4 @@
-package com.savemymoney.savemymoneyapi.models.response;
+package com.savemymoney.savemymoneyapi.entities.response;
 
 public class LoginResponse {
     private String email;

@@ -1,4 +1,4 @@
-package com.savemymoney.savemymoneyapi.models.request;
+package com.savemymoney.savemymoneyapi.entities.request;
 
 public class LoginRequest {
     private String email;

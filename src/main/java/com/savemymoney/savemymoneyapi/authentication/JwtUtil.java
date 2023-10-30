@@ -1,6 +1,6 @@
 package com.savemymoney.savemymoneyapi.authentication;
 
-import com.savemymoney.savemymoneyapi.models.Usuario;
+import com.savemymoney.savemymoneyapi.entities.Usuario;
 import io.jsonwebtoken.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.AuthenticationException;
