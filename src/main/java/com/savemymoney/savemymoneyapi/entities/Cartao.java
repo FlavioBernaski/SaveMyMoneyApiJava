@@ -1,8 +1,10 @@
 package com.savemymoney.savemymoneyapi.entities;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -10,13 +12,13 @@ import java.util.UUID;
 public class Cartao {
     @Id
     private UUID id;
-    @OneToOne
+    private boolean ativo = true;
+    private long versao = System.currentTimeMillis();
+    @ManyToOne
     @JoinColumn(name = "idUsuario")
     private Usuario usuario;
     private String descricao;
     private Date vencimentoFatura;
-    private LocalDateTime dataExclusao;
-    private long versao = System.currentTimeMillis();
 
     public UUID getId() {
         return id;
@@ -50,12 +52,12 @@ public class Cartao {
         this.vencimentoFatura = vencimentoFatura;
     }
 
-    public LocalDateTime getDataExclusao() {
-        return dataExclusao;
+    public boolean isAtivo() {
+        return ativo;
     }
 
-    public void setDataExclusao(LocalDateTime dataExclusao) {
-        this.dataExclusao = dataExclusao;
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
     }
 
     public long getVersao() {
