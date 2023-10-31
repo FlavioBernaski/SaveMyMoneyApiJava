@@ -3,10 +3,12 @@ package com.savemymoney.savemymoneyapi.entities.request;
 public class LoginRequest {
     private String email;
     private String senha;
+    private String nome;
 
-    public LoginRequest(String email, String senha) {
+    public LoginRequest(String email, String senha, String nome) {
         this.email = email;
         this.senha = senha;
+        this.nome = nome;
     }
 
     public String getEmail() {
@@ -23,5 +25,13 @@ public class LoginRequest {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 }

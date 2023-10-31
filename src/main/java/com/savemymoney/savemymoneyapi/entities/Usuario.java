@@ -16,6 +16,12 @@ public class Usuario {
     private String senha;
 
 
+    public Usuario() {}
+
+    public Usuario(String email) {
+        this.email = email;
+    }
+
     public UUID getId() {
         return id;
     }
