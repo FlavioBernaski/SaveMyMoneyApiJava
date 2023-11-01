@@ -5,8 +5,8 @@ import jakarta.persistence.*;
 import java.util.Date;
 import java.util.UUID;
 
-@Entity(name = "gastos")
-public class Gastos {
+@Entity(name = "gasto")
+public class Gasto {
     @Id
     private UUID id;
     private boolean ativo = true;
