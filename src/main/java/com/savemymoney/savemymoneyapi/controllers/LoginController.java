@@ -39,7 +39,7 @@ public class LoginController {
 
     @ResponseBody
     @PostMapping("/login")
-    public ResponseEntity logar(@RequestBody LoginRequest request) {
+    public ResponseEntity<Object> logar(@RequestBody LoginRequest request) {
         try {
             Authentication authentication =
                     authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getSenha()));
