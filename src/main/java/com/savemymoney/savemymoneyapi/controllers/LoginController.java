@@ -6,6 +6,8 @@ import com.savemymoney.savemymoneyapi.entities.request.LoginRequest;
 import com.savemymoney.savemymoneyapi.entities.response.ErrorResponse;
 import com.savemymoney.savemymoneyapi.entities.response.LoginResponse;
 import com.savemymoney.savemymoneyapi.repositories.UsuarioRepository;
+import io.jsonwebtoken.lang.Strings;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,16 +16,14 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
-@Controller
+@RestController
+@CrossOrigin
 @RequestMapping("/auth")
+@Slf4j
 public class LoginController {
     @Autowired
     private UsuarioRepository repository;
@@ -39,12 +39,12 @@ public class LoginController {
 
     @ResponseBody
     @PostMapping("/login")
-    public ResponseEntity<Object> logar(@RequestBody LoginRequest request) {
+    public ResponseEntity<?> logar(@RequestBody LoginRequest request) {
         try {
             Authentication authentication =
                     authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getSenha()));
-            String email = authentication.getName();
-            LoginResponse response = new LoginResponse(email, jwtUtil.createToken(new Usuario(email)));
+            Usuario usuario = repository.localizarPorEmail(authentication.getName());
+            LoginResponse response = new LoginResponse(usuario, jwtUtil.createToken(usuario));
             return ResponseEntity.ok(response);
         } catch (BadCredentialsException e) {
             ErrorResponse response = new ErrorResponse(HttpStatus.BAD_REQUEST, "Usuário ou senha incorretos");

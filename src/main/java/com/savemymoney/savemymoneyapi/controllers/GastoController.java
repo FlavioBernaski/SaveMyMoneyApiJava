@@ -6,12 +6,12 @@ import com.savemymoney.savemymoneyapi.services.GastoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
-@Controller
+@RestController
+@CrossOrigin
 @RequestMapping("/gastos")
 public class GastoController {
 
@@ -23,6 +23,7 @@ public class GastoController {
     public void salvar(@RequestBody Gasto gasto) {
         service.salvar(gasto);
     }
+
     @GetMapping("/{id}")
     @ResponseBody
     public ResponseEntity<Object> buscar(@PathVariable("id") UUID id) {
