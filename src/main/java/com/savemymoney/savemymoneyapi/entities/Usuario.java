@@ -1,5 +1,7 @@
 package com.savemymoney.savemymoneyapi.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.Getter;
@@ -17,6 +19,7 @@ public class Usuario {
     private long versao = System.currentTimeMillis();
     private String nome;
     private String email;
+
     private String senha;
 
 
