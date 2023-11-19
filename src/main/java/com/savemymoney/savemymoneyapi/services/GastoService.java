@@ -5,6 +5,8 @@ import com.savemymoney.savemymoneyapi.repositories.GastoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -25,5 +27,9 @@ public class GastoService {
         gasto.setAtivo(false);
         gasto.setVersao(System.currentTimeMillis());
         salvar(gasto);
+    }
+
+    public List<Gasto> listar() {
+        return new ArrayList<>();
     }
 }

@@ -35,6 +35,12 @@ public class GastoController {
         }
     }
 
+    @GetMapping
+    @ResponseBody
+    public ResponseEntity<?> listar() {
+        return ResponseEntity.ok(service.listar());
+    }
+
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void excluir(@PathVariable("id") UUID id) {

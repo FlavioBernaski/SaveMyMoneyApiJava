@@ -1,5 +1,6 @@
-package com.savemymoney.savemymoneyapi.authentication;
+package com.savemymoney.savemymoneyapi.configuration;
 
+import com.savemymoney.savemymoneyapi.authentication.JwtAuthorizationFilter;
 import com.savemymoney.savemymoneyapi.services.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

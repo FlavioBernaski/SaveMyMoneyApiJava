@@ -1,18 +1,16 @@
 package com.savemymoney.savemymoneyapi.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 
+import jakarta.persistence.*;
 import java.util.Date;
 import java.util.UUID;
 
-@Entity(name = "cartao")
 @Getter
 @Setter
+@Entity
+@Table(name = "cartao")
 public class Cartao {
     @Id
     private UUID id;

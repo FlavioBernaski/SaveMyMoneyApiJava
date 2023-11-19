@@ -1,17 +1,17 @@
 package com.savemymoney.savemymoneyapi.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import java.util.UUID;
 
-@Entity(name = "usuario")
+@Entity
 @Getter
 @Setter
+@Table(name = "usuario")
 public class Usuario {
     @Id
     private UUID id;
@@ -23,7 +23,8 @@ public class Usuario {
     private String senha;
 
 
-    public Usuario() {}
+    public Usuario() {
+    }
 
     public Usuario(String email) {
         this.email = email;
