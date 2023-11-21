@@ -3,6 +3,7 @@ package com.savemymoney.savemymoneyapi.controllers;
 import com.savemymoney.savemymoneyapi.entities.Gasto;
 import com.savemymoney.savemymoneyapi.entities.response.ErrorResponse;
 import com.savemymoney.savemymoneyapi.services.GastoService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,8 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@CrossOrigin
 @RequestMapping("/gastos")
+@Slf4j
 public class GastoController {
 
     @Autowired
@@ -38,12 +39,23 @@ public class GastoController {
     @GetMapping
     @ResponseBody
     public ResponseEntity<?> listar() {
-        return ResponseEntity.ok(service.listar());
+        try {
+            return ResponseEntity.ok(service.listar());
+        } catch (Exception e) {
+            ErrorResponse response = new ErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void excluir(@PathVariable("id") UUID id) {
-        service.excluir(id);
+    @ResponseBody
+    public ResponseEntity<?> excluir(@PathVariable("id") UUID id) {
+        try {
+            service.excluir(id);
+            return ResponseEntity.ok(null);
+        } catch (Exception e) {
+            ErrorResponse response = new ErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
     }
 }

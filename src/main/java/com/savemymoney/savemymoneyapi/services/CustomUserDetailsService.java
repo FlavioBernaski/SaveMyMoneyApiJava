@@ -2,6 +2,8 @@ package com.savemymoney.savemymoneyapi.services;
 
 import com.savemymoney.savemymoneyapi.entities.Usuario;
 import com.savemymoney.savemymoneyapi.repositories.UsuarioRepository;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -30,5 +32,14 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .password(usuario.getSenha())
                 .roles(roles.toArray(new String[0]))
                 .build();
+    }
+
+    protected Usuario getUsuarioLogado() {
+        SecurityContext context = SecurityContextHolder.getContext();
+
+        if (context == null) {
+            return null;
+        }
+        return repository.localizarPorEmail(context.getAuthentication().getName());
     }
 }

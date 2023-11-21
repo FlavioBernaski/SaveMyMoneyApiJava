@@ -1,11 +1,13 @@
 package com.savemymoney.savemymoneyapi.services;
 
+import com.querydsl.core.types.Predicate;
 import com.savemymoney.savemymoneyapi.entities.Gasto;
+import com.savemymoney.savemymoneyapi.entities.QGasto;
 import com.savemymoney.savemymoneyapi.repositories.GastoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -13,6 +15,9 @@ import java.util.UUID;
 public class GastoService {
     @Autowired
     private GastoRepository repository;
+    @Autowired
+    private CustomUserDetailsService customUserDetailsService;
+    ;
 
     public void salvar(Gasto gasto) {
         repository.save(gasto);
@@ -30,6 +35,9 @@ public class GastoService {
     }
 
     public List<Gasto> listar() {
-        return new ArrayList<>();
+        UUID idUsuarioLogado = customUserDetailsService.getUsuarioLogado().getId();
+        Predicate predicate = QGasto.gasto.ativo.eq(true)
+                .and(QGasto.gasto.usuario.id.eq(idUsuarioLogado));
+        return repository.findAll(predicate, Pageable.unpaged()).getContent();
     }
 }
