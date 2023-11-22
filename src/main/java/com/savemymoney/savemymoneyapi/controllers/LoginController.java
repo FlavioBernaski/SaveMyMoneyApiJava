@@ -6,7 +6,7 @@ import com.savemymoney.savemymoneyapi.entities.request.LoginRequest;
 import com.savemymoney.savemymoneyapi.entities.request.TokenRequest;
 import com.savemymoney.savemymoneyapi.entities.response.ErrorResponse;
 import com.savemymoney.savemymoneyapi.entities.response.LoginResponse;
-import com.savemymoney.savemymoneyapi.repositories.UsuarioRepository;
+import com.savemymoney.savemymoneyapi.services.UsuarioService;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ import java.util.UUID;
 @Slf4j
 public class LoginController {
     @Autowired
-    private UsuarioRepository repository;
+    private UsuarioService service;
     @Autowired
     private PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
@@ -43,7 +43,7 @@ public class LoginController {
         try {
             Authentication authentication =
                     authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getSenha()));
-            Usuario usuario = repository.localizarPorEmail(authentication.getName());
+            Usuario usuario = service.localizarPorEmail(authentication.getName());
             LoginResponse response = new LoginResponse(usuario, jwtUtil.createToken(usuario));
             log.info("Usuário {} logou no sistema", response.getUsuario().getEmail());
             return ResponseEntity.ok(response);
@@ -63,7 +63,7 @@ public class LoginController {
     public ResponseEntity<?> validarToken(@RequestBody TokenRequest token) {
         try {
             Claims claims = jwtUtil.parseJwtClaims(token.getToken());
-            Usuario usuario = repository.localizarPorEmail(claims.getSubject());
+            Usuario usuario = service.localizarPorEmail(claims.getSubject());
             if (usuario != null) {
                 log.info("Usuário {} verificou o token com sucesso", usuario.getEmail());
                 return ResponseEntity.ok().body(usuario);
@@ -78,7 +78,7 @@ public class LoginController {
     @ResponseBody
     @PostMapping("/register")
     public ResponseEntity registrar(@RequestBody LoginRequest request) {
-        if (repository.localizarPorEmail(request.getEmail()) != null) {
+        if (service.localizarPorEmail(request.getEmail()) != null) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(new ErrorResponse(HttpStatus.BAD_REQUEST, "Email já cadastrado"));
         }
         Usuario usuario = new Usuario();
@@ -86,7 +86,7 @@ public class LoginController {
         usuario.setNome(request.getNome());
         usuario.setEmail(request.getEmail());
         usuario.setSenha(passwordEncoder.encode(request.getSenha()));
-        repository.save(usuario);
+        service.salvar(usuario);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 }

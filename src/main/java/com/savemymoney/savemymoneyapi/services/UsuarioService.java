@@ -1,9 +1,10 @@
 package com.savemymoney.savemymoneyapi.services;
 
 import com.querydsl.core.types.Predicate;
-import com.savemymoney.savemymoneyapi.entities.Gasto;
-import com.savemymoney.savemymoneyapi.entities.QGasto;
-import com.savemymoney.savemymoneyapi.repositories.GastoRepository;
+import com.savemymoney.savemymoneyapi.entities.QCartao;
+import com.savemymoney.savemymoneyapi.entities.Usuario;
+import com.savemymoney.savemymoneyapi.repositories.UsuarioRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -12,31 +13,41 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class GastoService {
+@Slf4j
+public class UsuarioService {
     @Autowired
-    private GastoRepository repository;
+    private UsuarioRepository repository;
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
 
-    public void salvar(Gasto entidade) {
+    public void salvar(Usuario entidade) {
         repository.save(entidade);
     }
 
-    public Gasto buscar(UUID id) {
+    public Usuario buscar(UUID id) {
         return repository.findById(id).orElseThrow(() -> new RuntimeException("Id não consta no banco de dados"));
     }
 
+    public Usuario localizarPorEmail(String email) {
+        try {
+            return repository.localizarPorEmail(email);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return null;
+        }
+    }
+
     public void excluir(UUID id) {
-        Gasto entidade = buscar(id);
+        Usuario entidade = buscar(id);
         entidade.setAtivo(false);
         entidade.setVersao(System.currentTimeMillis());
         salvar(entidade);
     }
 
-    public List<Gasto> listar() {
+    public List<Usuario> listar() {
         UUID idUsuarioLogado = customUserDetailsService.getUsuarioLogado().getId();
-        Predicate predicate = QGasto.gasto.ativo.eq(true)
-                .and(QGasto.gasto.usuario.id.eq(idUsuarioLogado));
+        Predicate predicate = QCartao.cartao.ativo.eq(true)
+                .and(QCartao.cartao.usuario.id.eq(idUsuarioLogado));
         return repository.findAll(predicate, Pageable.unpaged()).getContent();
     }
 }

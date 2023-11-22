@@ -1,17 +1,19 @@
 package com.savemymoney.savemymoneyapi.entities;
 
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import jakarta.persistence.*;
-import java.util.Date;
 import java.util.UUID;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "gasto")
-public class Gasto {
+@Table(name = "cartao")
+public class Meta {
+    public static final String TIPO_FIXA = "f";
+    public static final String TIPO_SOMADA = "s";
+
     @Id
     private UUID id;
     private boolean ativo = true;
@@ -21,10 +23,5 @@ public class Gasto {
     private Usuario usuario;
     private String descricao;
     private Double valor;
-    private Date dataEntrada;
-    private Integer parcelas;
-    private Integer parcelaAtual;
-    @OneToOne
-    @JoinColumn(name = "idCartao")
-    private Cartao cartao;
+    private String tipo = TIPO_FIXA;
 }
