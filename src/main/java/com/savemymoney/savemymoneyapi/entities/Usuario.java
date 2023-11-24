@@ -1,5 +1,6 @@
 package com.savemymoney.savemymoneyapi.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,6 +12,7 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "usuario")
 public class Usuario {
     @Id
