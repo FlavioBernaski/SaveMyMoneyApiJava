@@ -1,11 +1,10 @@
 package com.savemymoney.savemymoneyapi.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import jakarta.persistence.*;
-import java.util.Date;
 import java.util.UUID;
 
 @Getter
@@ -22,6 +21,6 @@ public class Cartao {
     @JoinColumn(name = "idUsuario")
     private Usuario usuario;
     private String descricao;
-    private Date vencimentoFatura;
+    private Integer vencimentoFatura;
     private Double limite;
 }
