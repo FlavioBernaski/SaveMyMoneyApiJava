@@ -12,8 +12,11 @@ import java.util.UUID;
 @Setter
 @Entity
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Table(name = "gasto")
-public class Gasto {
+@Table(name = "movimentacao")
+public class Movimentacao {
+    public static final String TIPO_ENTRADA = "E";
+    public static final String TIPO_SAIDA = "S";
+
     @Id
     private UUID id;
     private boolean ativo = true;
@@ -26,6 +29,7 @@ public class Gasto {
     private Date dataEntrada;
     private Integer parcelas;
     private Integer parcelaAtual;
+    private String tipo;
     @OneToOne
     @JoinColumn(name = "idCartao")
     private Cartao cartao;

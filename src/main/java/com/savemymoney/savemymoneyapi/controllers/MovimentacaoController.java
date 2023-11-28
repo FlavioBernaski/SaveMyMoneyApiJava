@@ -1,8 +1,8 @@
 package com.savemymoney.savemymoneyapi.controllers;
 
-import com.savemymoney.savemymoneyapi.entities.Gasto;
+import com.savemymoney.savemymoneyapi.entities.Movimentacao;
 import com.savemymoney.savemymoneyapi.entities.response.ErrorResponse;
-import com.savemymoney.savemymoneyapi.services.GastoService;
+import com.savemymoney.savemymoneyapi.services.MovimentacaoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,16 +12,16 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/gastos")
+@RequestMapping("/movimentacoes")
 @Slf4j
-public class GastoController {
+public class MovimentacaoController {
 
     @Autowired
-    private GastoService service;
+    private MovimentacaoService service;
 
     @PostMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void salvar(@RequestBody Gasto gasto) {
+    public void salvar(@RequestBody Movimentacao gasto) {
         service.salvar(gasto);
     }
 
