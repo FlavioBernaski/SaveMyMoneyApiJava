@@ -17,7 +17,7 @@ public interface MetaRepository
         QuerydslBinderCustomizer<QMeta> {
 
     @Override
-    default public void customize(QuerydslBindings bindings, QMeta entidade) {
+    default void customize(QuerydslBindings bindings, QMeta entidade) {
     }
 
 }

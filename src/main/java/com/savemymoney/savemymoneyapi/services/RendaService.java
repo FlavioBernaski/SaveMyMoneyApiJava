@@ -2,6 +2,7 @@ package com.savemymoney.savemymoneyapi.services;
 
 import com.querydsl.core.types.Predicate;
 import com.savemymoney.savemymoneyapi.entities.QCartao;
+import com.savemymoney.savemymoneyapi.entities.QRenda;
 import com.savemymoney.savemymoneyapi.entities.Renda;
 import com.savemymoney.savemymoneyapi.repositories.RendaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +36,8 @@ public class RendaService {
 
     public List<Renda> listar() {
         UUID idUsuarioLogado = customUserDetailsService.getUsuarioLogado().getId();
-        Predicate predicate = QCartao.cartao.ativo.eq(true)
-                .and(QCartao.cartao.usuario.id.eq(idUsuarioLogado));
+        Predicate predicate = QRenda.renda.ativo.eq(true)
+                .and(QRenda.renda.usuario.id.eq(idUsuarioLogado));
         return repository.findAll(predicate, Pageable.unpaged()).getContent();
     }
 }

@@ -17,7 +17,7 @@ public interface CartaoRepository
         QuerydslBinderCustomizer<QCartao> {
 
     @Override
-    default public void customize(QuerydslBindings bindings, QCartao entidade) {
+    default void customize(QuerydslBindings bindings, QCartao entidade) {
     }
 
 }

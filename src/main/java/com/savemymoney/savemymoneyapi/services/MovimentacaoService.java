@@ -2,7 +2,7 @@ package com.savemymoney.savemymoneyapi.services;
 
 import com.querydsl.core.types.Predicate;
 import com.savemymoney.savemymoneyapi.entities.Movimentacao;
-import com.savemymoney.savemymoneyapi.entities.QGasto;
+import com.savemymoney.savemymoneyapi.entities.QMovimentacao;
 import com.savemymoney.savemymoneyapi.repositories.MovimentacaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -35,8 +35,8 @@ public class MovimentacaoService {
 
     public List<Movimentacao> listar() {
         UUID idUsuarioLogado = customUserDetailsService.getUsuarioLogado().getId();
-        Predicate predicate = QGasto.gasto.ativo.eq(true)
-                .and(QGasto.gasto.usuario.id.eq(idUsuarioLogado));
+        Predicate predicate = QMovimentacao.movimentacao.ativo.eq(true)
+                .and(QMovimentacao.movimentacao.usuario.id.eq(idUsuarioLogado));
         return repository.findAll(predicate, Pageable.unpaged()).getContent();
     }
 }

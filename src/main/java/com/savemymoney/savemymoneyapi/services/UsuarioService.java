@@ -47,7 +47,7 @@ public class UsuarioService {
     public List<Usuario> listar() {
         UUID idUsuarioLogado = customUserDetailsService.getUsuarioLogado().getId();
         Predicate predicate = QCartao.cartao.ativo.eq(true)
-                .and(QCartao.cartao.usuario.id.eq(idUsuarioLogado));
+                .and(QCartao.cartao.conta.usuario.id.eq(idUsuarioLogado));
         return repository.findAll(predicate, Pageable.unpaged()).getContent();
     }
 }

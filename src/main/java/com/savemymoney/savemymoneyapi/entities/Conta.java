@@ -11,16 +11,15 @@ import java.util.UUID;
 @Setter
 @Entity
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Table(name = "cartao")
-public class Cartao {
+@Table(name = "conta")
+public class Conta {
     @Id
     private UUID id;
     private boolean ativo = true;
     private long versao = System.currentTimeMillis();
     @ManyToOne
-    @JoinColumn(name = "idConta")
-    private Conta conta;
+    @JoinColumn(name = "idUsuario")
+    private Usuario usuario;
     private String descricao;
-    private Integer vencimentoFatura;
-    private Double limite;
+    private Integer saldo;
 }

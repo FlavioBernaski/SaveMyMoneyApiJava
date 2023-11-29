@@ -1,7 +1,7 @@
 package com.savemymoney.savemymoneyapi.repositories;
 
 import com.savemymoney.savemymoneyapi.entities.Movimentacao;
-import com.savemymoney.savemymoneyapi.entities.QGasto;
+import com.savemymoney.savemymoneyapi.entities.QMovimentacao;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
 import org.springframework.data.querydsl.binding.QuerydslBindings;
@@ -14,10 +14,10 @@ public interface MovimentacaoRepository
         extends CrudRepository<Movimentacao, UUID>,
         PagingAndSortingRepository<Movimentacao, UUID>,
         QuerydslPredicateExecutor<Movimentacao>,
-        QuerydslBinderCustomizer<QGasto> {
+        QuerydslBinderCustomizer<QMovimentacao> {
 
     @Override
-    default public void customize(QuerydslBindings bindings, QGasto entidade) {
+    default void customize(QuerydslBindings bindings, QMovimentacao entidade) {
     }
 
 }

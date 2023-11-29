@@ -3,6 +3,7 @@ package com.savemymoney.savemymoneyapi.services;
 import com.querydsl.core.types.Predicate;
 import com.savemymoney.savemymoneyapi.entities.Meta;
 import com.savemymoney.savemymoneyapi.entities.QCartao;
+import com.savemymoney.savemymoneyapi.entities.QMeta;
 import com.savemymoney.savemymoneyapi.repositories.MetaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -35,8 +36,8 @@ public class MetaService {
 
     public List<Meta> listar() {
         UUID idUsuarioLogado = customUserDetailsService.getUsuarioLogado().getId();
-        Predicate predicate = QCartao.cartao.ativo.eq(true)
-                .and(QCartao.cartao.usuario.id.eq(idUsuarioLogado));
+        Predicate predicate = QMeta.meta.ativo.eq(true)
+                .and(QMeta.meta.usuario.id.eq(idUsuarioLogado));
         return repository.findAll(predicate, Pageable.unpaged()).getContent();
     }
 }

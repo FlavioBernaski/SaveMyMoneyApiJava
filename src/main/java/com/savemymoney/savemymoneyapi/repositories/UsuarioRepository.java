@@ -19,7 +19,7 @@ public interface UsuarioRepository
         QuerydslBinderCustomizer<QUsuario> {
 
     @Override
-    default public void customize(QuerydslBindings bindings, QUsuario entidade) {
+    default void customize(QuerydslBindings bindings, QUsuario entidade) {
     }
 
     @Query("select u from Usuario u where u.email = :email")

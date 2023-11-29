@@ -1,7 +1,7 @@
 package com.savemymoney.savemymoneyapi.repositories;
 
-import com.savemymoney.savemymoneyapi.entities.QRenda;
-import com.savemymoney.savemymoneyapi.entities.Renda;
+import com.savemymoney.savemymoneyapi.entities.Conta;
+import com.savemymoney.savemymoneyapi.entities.QConta;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
 import org.springframework.data.querydsl.binding.QuerydslBindings;
@@ -10,14 +10,14 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.UUID;
 
-public interface RendaRepository
-        extends CrudRepository<Renda, UUID>,
-        PagingAndSortingRepository<Renda, UUID>,
-        QuerydslPredicateExecutor<Renda>,
-        QuerydslBinderCustomizer<QRenda> {
+public interface ContaRepository
+        extends CrudRepository<Conta, UUID>,
+        PagingAndSortingRepository<Conta, UUID>,
+        QuerydslPredicateExecutor<Conta>,
+        QuerydslBinderCustomizer<QConta> {
 
     @Override
-    default void customize(QuerydslBindings bindings, QRenda entidade) {
+    default void customize(QuerydslBindings bindings, QConta entidade) {
     }
 
 }
