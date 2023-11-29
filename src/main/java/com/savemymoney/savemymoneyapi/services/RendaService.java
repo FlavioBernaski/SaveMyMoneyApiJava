@@ -37,7 +37,7 @@ public class RendaService {
     public List<Renda> listar() {
         UUID idUsuarioLogado = customUserDetailsService.getUsuarioLogado().getId();
         Predicate predicate = QRenda.renda.ativo.eq(true)
-                .and(QRenda.renda.usuario.id.eq(idUsuarioLogado));
+                .and(QRenda.renda.conta.usuario.id.eq(idUsuarioLogado));
         return repository.findAll(predicate, Pageable.unpaged()).getContent();
     }
 }

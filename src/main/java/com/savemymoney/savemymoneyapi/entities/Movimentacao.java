@@ -2,6 +2,7 @@ package com.savemymoney.savemymoneyapi.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import jakarta.persistence.*;
@@ -11,6 +12,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "movimentacao")
 public class Movimentacao {
@@ -22,8 +24,8 @@ public class Movimentacao {
     private boolean ativo = true;
     private long versao = System.currentTimeMillis();
     @ManyToOne
-    @JoinColumn(name = "idUsuario")
-    private Usuario usuario;
+    @JoinColumn(name = "idConta")
+    private Conta conta;
     private String descricao;
     private Double valor;
     private Date dataEntrada;

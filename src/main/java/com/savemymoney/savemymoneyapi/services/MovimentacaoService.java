@@ -36,7 +36,7 @@ public class MovimentacaoService {
     public List<Movimentacao> listar() {
         UUID idUsuarioLogado = customUserDetailsService.getUsuarioLogado().getId();
         Predicate predicate = QMovimentacao.movimentacao.ativo.eq(true)
-                .and(QMovimentacao.movimentacao.usuario.id.eq(idUsuarioLogado));
+                .and(QMovimentacao.movimentacao.conta.usuario.id.eq(idUsuarioLogado));
         return repository.findAll(predicate, Pageable.unpaged()).getContent();
     }
 }

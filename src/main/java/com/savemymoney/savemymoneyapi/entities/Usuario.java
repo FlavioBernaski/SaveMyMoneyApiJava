@@ -2,6 +2,7 @@ package com.savemymoney.savemymoneyapi.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import jakarta.persistence.Entity;
@@ -12,6 +13,7 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "usuario")
 public class Usuario {
@@ -21,12 +23,7 @@ public class Usuario {
     private long versao = System.currentTimeMillis();
     private String nome;
     private String email;
-
     private String senha;
-
-
-    public Usuario() {
-    }
 
     public Usuario(String email) {
         this.email = email;
