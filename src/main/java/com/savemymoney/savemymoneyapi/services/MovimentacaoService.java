@@ -5,7 +5,9 @@ import com.savemymoney.savemymoneyapi.entities.Movimentacao;
 import com.savemymoney.savemymoneyapi.entities.QMovimentacao;
 import com.savemymoney.savemymoneyapi.repositories.MovimentacaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,6 +39,8 @@ public class MovimentacaoService {
         UUID idUsuarioLogado = customUserDetailsService.getUsuarioLogado().getId();
         Predicate predicate = QMovimentacao.movimentacao.ativo.eq(true)
                 .and(QMovimentacao.movimentacao.conta.usuario.id.eq(idUsuarioLogado));
-        return repository.findAll(predicate, Pageable.unpaged()).getContent();
+        Sort sort = Sort.by(Sort.Direction.ASC, "dataEntrada");
+        Pageable pageable = PageRequest.of(0, Integer.MAX_VALUE, sort);
+        return repository.findAll(predicate, pageable).getContent();
     }
 }
