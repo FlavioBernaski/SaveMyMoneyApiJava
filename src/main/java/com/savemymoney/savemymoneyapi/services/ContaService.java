@@ -13,10 +13,26 @@ import java.util.UUID;
 
 @Service
 public class ContaService {
+    private final ContaRepository repository;
+    private final CustomUserDetailsService customUserDetailsService;
+    private final RendaService rendaService;
+    private final CartaoService cartaoService;
+    private final MovimentacaoService movimentacaoService;
+
     @Autowired
-    private ContaRepository repository;
-    @Autowired
-    private CustomUserDetailsService customUserDetailsService;
+    public ContaService(
+            ContaRepository repository,
+            CustomUserDetailsService customUserDetailsService,
+            RendaService rendaService,
+            CartaoService cartaoService,
+            MovimentacaoService movimentacaoService
+    ) {
+        this.repository = repository;
+        this.customUserDetailsService = customUserDetailsService;
+        this.rendaService = rendaService;
+        this.cartaoService = cartaoService;
+        this.movimentacaoService = movimentacaoService;
+    }
 
     public void salvar(Conta entidade) {
         repository.save(entidade);
@@ -31,6 +47,14 @@ public class ContaService {
         entidade.setAtivo(false);
         entidade.setVersao(System.currentTimeMillis());
         salvar(entidade);
+    }
+
+    public void excluirTodasDoUsuario(UUID idUsuario) {
+        List<UUID> contas = repository.listarIdAtivasDoUsuario(idUsuario);
+        contas.forEach(this::excluir);
+        contas.forEach(rendaService::excluirTodasDaConta);
+        contas.forEach(cartaoService::excluirTodosDaConta);
+        contas.forEach(movimentacaoService::excluirTodasDaConta);
     }
 
     public List<Conta> listar() {

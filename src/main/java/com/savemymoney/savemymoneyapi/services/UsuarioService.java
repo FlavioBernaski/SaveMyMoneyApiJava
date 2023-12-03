@@ -15,10 +15,19 @@ import java.util.UUID;
 @Service
 @Slf4j
 public class UsuarioService {
+    private final UsuarioRepository repository;
+    private final CustomUserDetailsService customUserDetailsService;
+    private final ContaService contaService;
+
     @Autowired
-    private UsuarioRepository repository;
-    @Autowired
-    private CustomUserDetailsService customUserDetailsService;
+    public UsuarioService(
+            UsuarioRepository repository,
+            CustomUserDetailsService customUserDetailsService,
+            ContaService contaService) {
+        this.repository = repository;
+        this.customUserDetailsService = customUserDetailsService;
+        this.contaService = contaService;
+    }
 
     public void salvar(Usuario entidade) {
         repository.save(entidade);
@@ -42,6 +51,7 @@ public class UsuarioService {
         entidade.setAtivo(false);
         entidade.setVersao(System.currentTimeMillis());
         salvar(entidade);
+        contaService.excluirTodasDoUsuario(id);
     }
 
     public List<Usuario> listar() {

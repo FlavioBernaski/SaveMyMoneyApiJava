@@ -13,10 +13,16 @@ import java.util.UUID;
 
 @Service
 public class CartaoService {
+    private final CartaoRepository repository;
+    private final CustomUserDetailsService customUserDetailsService;
+
     @Autowired
-    private CartaoRepository repository;
-    @Autowired
-    private CustomUserDetailsService customUserDetailsService;
+    public CartaoService(
+            CartaoRepository repository,
+            CustomUserDetailsService customUserDetailsService) {
+        this.repository = repository;
+        this.customUserDetailsService = customUserDetailsService;
+    }
 
     public void salvar(Cartao entidade) {
         repository.save(entidade);
@@ -31,6 +37,11 @@ public class CartaoService {
         entidade.setAtivo(false);
         entidade.setVersao(System.currentTimeMillis());
         salvar(entidade);
+    }
+
+    public void excluirTodosDaConta(UUID idConta) {
+        List<UUID> cartoes = repository.listarIdAtivosPorConta(idConta);
+        cartoes.forEach(this::excluir);
     }
 
     public List<Cartao> listar() {

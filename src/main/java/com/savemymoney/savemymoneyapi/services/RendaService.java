@@ -1,7 +1,6 @@
 package com.savemymoney.savemymoneyapi.services;
 
 import com.querydsl.core.types.Predicate;
-import com.savemymoney.savemymoneyapi.entities.QCartao;
 import com.savemymoney.savemymoneyapi.entities.QRenda;
 import com.savemymoney.savemymoneyapi.entities.Renda;
 import com.savemymoney.savemymoneyapi.repositories.RendaRepository;
@@ -14,10 +13,16 @@ import java.util.UUID;
 
 @Service
 public class RendaService {
+    private final RendaRepository repository;
+    private final CustomUserDetailsService customUserDetailsService;
+
     @Autowired
-    private RendaRepository repository;
-    @Autowired
-    private CustomUserDetailsService customUserDetailsService;
+    public RendaService(
+            RendaRepository repository,
+            CustomUserDetailsService customUserDetailsService) {
+        this.repository = repository;
+        this.customUserDetailsService = customUserDetailsService;
+    }
 
     public void salvar(Renda entidade) {
         repository.save(entidade);
@@ -39,5 +44,10 @@ public class RendaService {
         Predicate predicate = QRenda.renda.ativo.eq(true)
                 .and(QRenda.renda.conta.usuario.id.eq(idUsuarioLogado));
         return repository.findAll(predicate, Pageable.unpaged()).getContent();
+    }
+
+    public void excluirTodasDaConta(UUID idConta) {
+        List<UUID> rendas = repository.listarIdAtivasPorConta(idConta);
+        rendas.forEach(this::excluir);
     }
 }

@@ -2,7 +2,6 @@ package com.savemymoney.savemymoneyapi.services;
 
 import com.querydsl.core.types.Predicate;
 import com.savemymoney.savemymoneyapi.entities.Meta;
-import com.savemymoney.savemymoneyapi.entities.QCartao;
 import com.savemymoney.savemymoneyapi.entities.QMeta;
 import com.savemymoney.savemymoneyapi.repositories.MetaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +13,16 @@ import java.util.UUID;
 
 @Service
 public class MetaService {
+    private final MetaRepository repository;
+    private final CustomUserDetailsService customUserDetailsService;
+
     @Autowired
-    private MetaRepository repository;
-    @Autowired
-    private CustomUserDetailsService customUserDetailsService;
+    public MetaService(
+            MetaRepository repository,
+            CustomUserDetailsService customUserDetailsService) {
+        this.repository = repository;
+        this.customUserDetailsService = customUserDetailsService;
+    }
 
     public void salvar(Meta entidade) {
         repository.save(entidade);
@@ -32,6 +37,11 @@ public class MetaService {
         entidade.setAtivo(false);
         entidade.setVersao(System.currentTimeMillis());
         salvar(entidade);
+    }
+
+    public void excluirTodasDoUsuario(UUID idUsuario) {
+        List<UUID> metas = repository.listarIdAtivasPorUsuario(idUsuario);
+        metas.forEach(this::excluir);
     }
 
     public List<Meta> listar() {

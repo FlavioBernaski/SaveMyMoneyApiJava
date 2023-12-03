@@ -15,10 +15,16 @@ import java.util.UUID;
 
 @Service
 public class MovimentacaoService {
+    private final MovimentacaoRepository repository;
+    private final CustomUserDetailsService customUserDetailsService;
+
     @Autowired
-    private MovimentacaoRepository repository;
-    @Autowired
-    private CustomUserDetailsService customUserDetailsService;
+    public MovimentacaoService(
+            MovimentacaoRepository repository,
+            CustomUserDetailsService customUserDetailsService) {
+        this.repository = repository;
+        this.customUserDetailsService = customUserDetailsService;
+    }
 
     public void salvar(Movimentacao entidade) {
         repository.save(entidade);
@@ -33,6 +39,11 @@ public class MovimentacaoService {
         entidade.setAtivo(false);
         entidade.setVersao(System.currentTimeMillis());
         salvar(entidade);
+    }
+
+    public void excluirTodasDaConta(UUID idConta) {
+        List<UUID> movimentacoes = repository.listarIdAtivosPorConta(idConta);
+        movimentacoes.forEach(this::excluir);
     }
 
     public List<Movimentacao> listar() {
