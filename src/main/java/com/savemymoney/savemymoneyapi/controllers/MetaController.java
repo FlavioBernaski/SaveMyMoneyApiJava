@@ -16,8 +16,12 @@ import java.util.UUID;
 @Slf4j
 public class MetaController {
 
+    private final MetaService service;
+
     @Autowired
-    private MetaService service;
+    public MetaController(MetaService service) {
+        this.service = service;
+    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)

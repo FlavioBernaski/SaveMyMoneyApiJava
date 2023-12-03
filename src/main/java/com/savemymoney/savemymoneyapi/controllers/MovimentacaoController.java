@@ -16,8 +16,12 @@ import java.util.UUID;
 @Slf4j
 public class MovimentacaoController {
 
+    private final MovimentacaoService service;
+
     @Autowired
-    private MovimentacaoService service;
+    public MovimentacaoController(MovimentacaoService service) {
+        this.service = service;
+    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)

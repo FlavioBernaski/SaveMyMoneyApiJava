@@ -16,8 +16,12 @@ import java.util.UUID;
 @Slf4j
 public class RendaController {
 
+    private final RendaService service;
+
     @Autowired
-    private RendaService service;
+    public RendaController(RendaService service) {
+        this.service = service;
+    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)

@@ -25,14 +25,19 @@ import java.util.UUID;
 @RequestMapping("/auth")
 @Slf4j
 public class LoginController {
-    @Autowired
-    private UsuarioService service;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final UsuarioService service;
+    private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
 
-    public LoginController(AuthenticationManager manager, JwtUtil jwtUtil) {
+    @Autowired
+    public LoginController(
+            UsuarioService service,
+            PasswordEncoder passwordEncoder,
+            AuthenticationManager manager,
+            JwtUtil jwtUtil) {
+        this.service = service;
+        this.passwordEncoder = passwordEncoder;
         this.authenticationManager = manager;
         this.jwtUtil = jwtUtil;
     }

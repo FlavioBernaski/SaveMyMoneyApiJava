@@ -16,8 +16,12 @@ import java.util.UUID;
 @Slf4j
 public class ContaController {
 
+    private final ContaService service;
+
     @Autowired
-    private ContaService service;
+    public ContaController(ContaService service) {
+        this.service = service;
+    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)

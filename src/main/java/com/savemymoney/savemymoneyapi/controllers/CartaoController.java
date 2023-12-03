@@ -16,8 +16,12 @@ import java.util.UUID;
 @Slf4j
 public class CartaoController {
 
+    private final CartaoService service;
+
     @Autowired
-    private CartaoService service;
+    public CartaoController(CartaoService service) {
+        this.service = service;
+    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)

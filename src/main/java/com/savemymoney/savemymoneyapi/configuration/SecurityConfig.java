@@ -22,14 +22,18 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebSecurity
 public class SecurityConfig implements WebMvcConfigurer {
 
-    @Autowired
-    private Environment env;
+    private final Environment env;
 
     private final CustomUserDetailsService userDetailsService;
     private final JwtAuthorizationFilter jwtAuthorizationFilter;
     private final String[] WHITELIST = {"/auth/**"};
 
-    public SecurityConfig(CustomUserDetailsService customUserDetailsService, JwtAuthorizationFilter jwtAuthorizationFilter) {
+    @Autowired
+    public SecurityConfig(
+            Environment env,
+            CustomUserDetailsService customUserDetailsService,
+            JwtAuthorizationFilter jwtAuthorizationFilter) {
+        this.env = env;
         this.userDetailsService = customUserDetailsService;
         this.jwtAuthorizationFilter = jwtAuthorizationFilter;
     }
