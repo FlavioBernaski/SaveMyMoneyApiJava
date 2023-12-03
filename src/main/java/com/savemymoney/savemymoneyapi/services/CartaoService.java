@@ -15,13 +15,16 @@ import java.util.UUID;
 public class CartaoService {
     private final CartaoRepository repository;
     private final CustomUserDetailsService customUserDetailsService;
+    private final MovimentacaoService movimentacaoService;
 
     @Autowired
     public CartaoService(
             CartaoRepository repository,
-            CustomUserDetailsService customUserDetailsService) {
+            CustomUserDetailsService customUserDetailsService,
+            MovimentacaoService movimentacaoService) {
         this.repository = repository;
         this.customUserDetailsService = customUserDetailsService;
+        this.movimentacaoService = movimentacaoService;
     }
 
     public void salvar(Cartao entidade) {
@@ -42,6 +45,7 @@ public class CartaoService {
         entidade.setAtivo(false);
         entidade.setVersao(System.currentTimeMillis());
         salvar(entidade);
+        movimentacaoService.excluirTodasDoCartao(id);
     }
 
     public void excluirTodosDaConta(UUID idConta) {

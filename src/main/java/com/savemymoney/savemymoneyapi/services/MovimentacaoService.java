@@ -46,6 +46,11 @@ public class MovimentacaoService {
         movimentacoes.forEach(this::excluir);
     }
 
+    public void excluirTodasDoCartao(UUID idCartao) {
+        List<UUID> movimentacoes = repository.listarIdAtivosPorCartao(idCartao);
+        movimentacoes.forEach(this::excluir);
+    }
+
     public List<Movimentacao> listar() {
         UUID idUsuarioLogado = customUserDetailsService.getUsuarioLogado().getId();
         Predicate predicate = QMovimentacao.movimentacao.ativo.eq(true)

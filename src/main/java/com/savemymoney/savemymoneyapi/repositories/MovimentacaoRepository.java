@@ -26,4 +26,7 @@ public interface MovimentacaoRepository
     @Query(value = "select m.id from Movimentacao m where m.conta.id = :idConta and m.ativo")
     List<UUID> listarIdAtivosPorConta(@Param("idConta") UUID idConta);
 
+    @Query(value = "select m.id from Movimentacao m where m.cartao.id = :idCartao and m.ativo")
+    List<UUID> listarIdAtivosPorCartao(@Param("idCartao") UUID idCartao);
+
 }
