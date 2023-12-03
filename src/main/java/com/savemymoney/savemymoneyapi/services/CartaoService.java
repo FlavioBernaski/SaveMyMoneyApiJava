@@ -32,6 +32,11 @@ public class CartaoService {
         return repository.findById(id).orElseThrow(() -> new RuntimeException("Id não consta no banco de dados"));
     }
 
+    public List<Cartao> listarPorConta(UUID idConta) {
+        Predicate predicate = QCartao.cartao.ativo.isTrue().and(QCartao.cartao.conta.id.eq(idConta));
+        return repository.findAll(predicate, Pageable.unpaged()).getContent();
+    }
+
     public void excluir(UUID id) {
         Cartao entidade = buscar(id);
         entidade.setAtivo(false);

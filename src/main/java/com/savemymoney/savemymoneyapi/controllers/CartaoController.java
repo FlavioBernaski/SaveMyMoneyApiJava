@@ -40,6 +40,17 @@ public class CartaoController {
         }
     }
 
+    @GetMapping("/conta/{idConta}")
+    @ResponseBody
+    public ResponseEntity<Object> listarPorConta(@PathVariable("idConta") UUID idConta) {
+        try {
+            return ResponseEntity.ok(service.listarPorConta(idConta));
+        } catch (Exception e) {
+            ErrorResponse response = new ErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+    }
+
     @GetMapping
     @ResponseBody
     public ResponseEntity<?> listar() {
