@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
@@ -26,16 +27,24 @@ public class SecurityConfig implements WebMvcConfigurer {
 
     private final CustomUserDetailsService userDetailsService;
     private final JwtAuthorizationFilter jwtAuthorizationFilter;
+    private final LoggingInterceptor loggingInterceptor;
     private final String[] WHITELIST = {"/auth/**"};
 
     @Autowired
     public SecurityConfig(
             Environment env,
             CustomUserDetailsService customUserDetailsService,
-            JwtAuthorizationFilter jwtAuthorizationFilter) {
+            JwtAuthorizationFilter jwtAuthorizationFilter,
+            LoggingInterceptor loggingInterceptor) {
         this.env = env;
         this.userDetailsService = customUserDetailsService;
         this.jwtAuthorizationFilter = jwtAuthorizationFilter;
+        this.loggingInterceptor = loggingInterceptor;
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(loggingInterceptor);
     }
 
     @Override

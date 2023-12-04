@@ -34,7 +34,7 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .build();
     }
 
-    protected Usuario getUsuarioLogado() {
+    public Usuario getUsuarioLogado() {
         SecurityContext context = SecurityContextHolder.getContext();
 
         if (context == null) {

@@ -5,6 +5,7 @@ import com.savemymoney.savemymoneyapi.entities.Cartao;
 import com.savemymoney.savemymoneyapi.entities.QCartao;
 import com.savemymoney.savemymoneyapi.repositories.CartaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -15,13 +16,13 @@ import java.util.UUID;
 public class CartaoService {
     private final CartaoRepository repository;
     private final CustomUserDetailsService customUserDetailsService;
-    private final MovimentacaoService movimentacaoService;
+    private MovimentacaoService movimentacaoService;
 
     @Autowired
     public CartaoService(
             CartaoRepository repository,
             CustomUserDetailsService customUserDetailsService,
-            MovimentacaoService movimentacaoService) {
+            @Lazy MovimentacaoService movimentacaoService) {
         this.repository = repository;
         this.customUserDetailsService = customUserDetailsService;
         this.movimentacaoService = movimentacaoService;
