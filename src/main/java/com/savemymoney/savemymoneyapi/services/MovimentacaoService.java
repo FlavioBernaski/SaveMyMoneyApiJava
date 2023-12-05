@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalUnit;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -84,6 +85,35 @@ public class MovimentacaoService {
         List<UUID> movimentacoes = repository.listarIdAtivosPorCartao(idCartao);
         movimentacoes.forEach(this::excluir);
     }
+
+    public List<Movimentacao> listarFiltrandoData(int ano, int mes) {
+        Date dataDe;
+        Date dataAte;
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, ano);
+        calendar.set(Calendar.MONTH, mes);
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getMinimum(Calendar.DAY_OF_MONTH));
+        calendar.set(Calendar.HOUR, calendar.getMinimum(Calendar.HOUR));
+        calendar.set(Calendar.MINUTE, calendar.getMinimum(Calendar.MINUTE));
+        calendar.set(Calendar.SECOND, calendar.getMinimum(Calendar.SECOND));
+        dataDe = calendar.getTime();
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+        calendar.set(Calendar.HOUR, calendar.getActualMaximum(Calendar.HOUR));
+        calendar.set(Calendar.MINUTE, calendar.getActualMaximum(Calendar.MINUTE));
+        calendar.set(Calendar.SECOND, calendar.getActualMaximum(Calendar.SECOND));
+        dataAte = calendar.getTime();
+
+        UUID idUsuarioLogado = customUserDetailsService.getUsuarioLogado().getId();
+        Predicate predicate = QMovimentacao.movimentacao.ativo.eq(true)
+                .and(QMovimentacao.movimentacao.conta.usuario.id.eq(idUsuarioLogado))
+                .and(QMovimentacao.movimentacao.dataEntrada.goe(dataDe).and(QMovimentacao.movimentacao.dataEntrada.loe(dataAte)));
+
+        Sort sort = Sort.by(Sort.Direction.ASC, "dataEntrada");
+        Pageable pageable = PageRequest.of(0, Integer.MAX_VALUE, sort);
+        List<Movimentacao> content = repository.findAll(predicate, pageable).getContent();
+        return content;
+    }
+
 
     public List<Movimentacao> listar() {
         UUID idUsuarioLogado = customUserDetailsService.getUsuarioLogado().getId();

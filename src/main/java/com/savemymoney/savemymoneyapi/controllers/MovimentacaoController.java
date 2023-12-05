@@ -40,6 +40,17 @@ public class MovimentacaoController {
         }
     }
 
+    @GetMapping("/filtro_data")
+    @ResponseBody
+    public ResponseEntity<Object> listarFiltrandoPorData(@RequestParam("ano") int ano, @RequestParam("mes") int mes) {
+        try {
+            return ResponseEntity.ok(service.listarFiltrandoData(ano, mes));
+        } catch (Exception e) {
+            ErrorResponse response = new ErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+    }
+
     @GetMapping
     @ResponseBody
     public ResponseEntity<?> listar() {
